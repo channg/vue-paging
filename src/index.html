@@ -3,8 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <title>vue-paging</title>
+    <style>
+        .vue-paging-warp{
+            text-align: center;
+            moz-user-select: -moz-none;
+            -moz-user-select: none;
+            -o-user-select:none;
+            -khtml-user-select:none;
+            -webkit-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+        }
+        .vue-paging-warp ul{
+            display: inline-block;
+        }
+        .vue-paging-warp ul li{
+            list-style: none;
+            display: inline-block;
+            min-width: 15px;
+            height: 15px;
+            padding: 10px;
+            border: 1px solid gainsboro;
+            text-align: center;
+            line-height: 15px;
+            vertical-align: middle;
+            color:darkgray;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .vue-paging-warp ul li:first-child{
+            border-radius: 9px  0 0 9px;
+        }.vue-paging-warp ul li:last-child{
+            border-radius: 0 9px 9px 0 ;
+        }
+        .vue-paging-warp .active{
+            background-color: rgb(51, 122, 183);
+            border: 1px solid rgb(51, 122, 183);
+            color: white;
+        }
+    </style>
 </head>
 <body>
+    <div id="vue-warp">
+        <span>{{bindpage}}</span>
+        <paging :options="datas" :bindpage.sync="bindpage" v-on:topage="toPageFunction"></paging>
+    </div>
+    <script type="text/javascript" src="vue.js"></script>
+    <script type="text/javascript">
+        var Paging = Vue.extend({
+            template: '<div class="vue-paging-warp">' +
+                        '<ul><li v-on:click="goStart()">首页</li><li v-on:click="prevPage">«</li><li v-on:click="goAnwPage(n)" v-for="n in maxPages" v-text="n+1" :class="n==bindpage?'+"'"+'active'+"'"+':'+"'"+''+"'"+'"></li><li v-on:click="nextPage">»</li><li v-on:click="goEnd">末页</li></ul>' +
+                      '</div>',
+            data: function () {
+                return {
+                }
+            },
+            props: {
+                options:{
+                },
+                bindpage:{
+                    twoWay: true,
+                    default:0
+                }
+            },
+            computed:{
+                maxPages:function () {
+                    return Math.ceil(this.options.count/this.options.pageSize)
+                }
+            },
+            methods:{
+                goStart:function(){
 
+                    this.bindpage = 0
+                    this.$emit('topage',this.bindpage)
+                },
+                goEnd:function(){
+                    this.bindpage = this.maxPages-1
+                    this.$emit('topage',this.bindpage)
+                },
+                goAnwPage: function (page) {
+                    this.bindpage = page
+                    this.$emit('topage',this.bindpage)
+                },
+                nextPage: function () {
+                    if(this.bindpage<this.maxPages-1){
+                        this.bindpage++
+                        this.$emit('topage',this.bindpage)
+                    }
+                },
+                prevPage: function () {
+                    if(this.bindpage>0){
+                        this.bindpage--
+                        this.$emit('topage',this.bindpage)
+                    }
+
+                }
+            },created: function () {
+                console.log(this.options)
+            }
+        })
+        Vue.component('paging', Paging)
+
+    </script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el:'#vue-warp',
+            data:{
+                datas:{
+                    pageSize:5,
+                    count:41
+                },
+                bindpage:0
+            },
+            methods:{
+                toPageFunction: function (page) {
+                    console.log(page)
+                }
+            }
+        })
+    </script>
 </body>
 </html>

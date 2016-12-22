@@ -48,18 +48,24 @@
         <span>{{bindpage}}</span>
         <paging :options="datas" :bindpage.sync="bindpage" v-on:topage="toPageFunction"></paging>
     </div>
-    <script type="text/javascript" src="vue.js"></script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/vue/1.0.26/vue.js"></script>
     <script type="text/javascript">
         var Paging = Vue.extend({
             template: '<div class="vue-paging-warp">' +
                         '<ul><li v-on:click="goStart()">首页</li><li v-on:click="prevPage">«</li><li v-on:click="goAnwPage(n)" v-for="n in maxPages" v-text="n+1" :class="n==bindpage?'+"'"+'active'+"'"+':'+"'"+''+"'"+'"></li><li v-on:click="nextPage">»</li><li v-on:click="goEnd">末页</li></ul>' +
+                        '<span> 共 <span style="color: #dd1144" v-text="maxPages"></span> 页 </span>' +
                       '</div>',
             data: function () {
                 return {
+                    defaultOption:{
+                        pageSize:5,
+                        count:0
+                    }
                 }
             },
             props: {
                 options:{
+
                 },
                 bindpage:{
                     twoWay: true,
@@ -68,7 +74,7 @@
             },
             computed:{
                 maxPages:function () {
-                    return Math.ceil(this.options.count/this.options.pageSize)
+                    return Math.ceil(this.defaultOption.count/this.defaultOption.pageSize)
                 }
             },
             methods:{
@@ -99,7 +105,12 @@
 
                 }
             },created: function () {
-                console.log(this.options)
+                if(this.options.pageSize){
+                    this.defaultOption.pageSize=this.options.pageSize
+                }
+                if(this.options.count){
+                    this.defaultOption.count=this.options.count
+                }
             }
         })
         Vue.component('paging', Paging)
@@ -110,8 +121,8 @@
             el:'#vue-warp',
             data:{
                 datas:{
-                    pageSize:5,
-                    count:41
+                    count:81,
+                    pageSize:5
                 },
                 bindpage:0
             },

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-paging</title>
+    <link rel="stylesheet" href="pagging.css"/>
+</head>
+<body>
+    <div id="vue-warp">
+        <span>{{bindpage}}</span>
+        <paging :options="datas" :bindpage.sync="bindpage" v-on:topage="toPageFunction"></paging>
+    </div>
+    <script type="text/javascript" src="vue.js"></script>
+    <script type="text/javascript" src="pagging.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el:'#vue-warp',
+            data:{
+                datas:{
+                    count:81,
+                    pageSize:5
+                },
+                bindpage:0
+            },
+            methods:{
+                toPageFunction: function (page) {
+                    console.log(page)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

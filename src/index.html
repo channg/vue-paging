@@ -23,7 +23,6 @@
             min-width: 15px;
             height: 15px;
             padding: 10px;
-            border: 1px solid gainsboro;
             text-align: center;
             line-height: 15px;
             vertical-align: middle;
@@ -32,14 +31,17 @@
             cursor: pointer;
         }
         .vue-paging-warp ul li:first-child{
-            border-radius: 9px  0 0 9px;
+            border-radius: 9px ;
         }.vue-paging-warp ul li:last-child{
-            border-radius: 0 9px 9px 0 ;
+            border-radius:  9px ;
         }
         .vue-paging-warp .active{
             background-color: rgb(51, 122, 183);
             border: 1px solid rgb(51, 122, 183);
             color: white;
+        }
+        .vue-paging-warp .no-border{
+            border: none;
         }
     </style>
 </head>
@@ -51,25 +53,29 @@
     <script type="text/javascript" src="vue.js"></script>
     <script type="text/javascript">
         var Paging = Vue.extend({
-            template: '<div class="vue-paging-warp">' +
-                        '<ul>' +
-                            '<li v-on:click="goStart()">首页</li>' +
-                            '<li v-on:click="prevPage">«</li>' +
-                            '<li v-on:click="goAnwPage(n)" v-for="n in showPages" v-text="n+floor" :class="n==bindpage?'+"'"+'active'+"'"+':'+"'"+''+"'"+'"></li>' +
-                            '<li v-on:click="nextPage">»</li><li v-on:click="goEnd">末页</li></ul>' +
-                        '<span> 共 <span style="color: #dd1144" v-text="maxPages"></span> 页 </span>' +
-                      '</div>',
             data: function () {
                 return {
                     defaultOption:{
                         pageSize:5,
                         count:0,
-                        maxShowSize:5
+                        maxShowSize:6
                     },
                     floor:1,
                     leftShow:false
                 }
             },
+            template: '<div class="vue-paging-warp">' +
+            '<ul>' +
+            '<li v-on:click="goStart()" >首页</li>' +
+            '<li class="no-border" v-show="leftOmit">...</li>' +
+            '<li v-on:click="prevPage"class="no-border">«</li>' +
+            '<li v-on:click="goAnwPage(item.index)" v-for="item in showPages" v-show="item.showSize" v-text="item.page" :class="item.index==bindpage?'+"'"+'active'+"'"+':'+"'"+''+"'"+'"></li>' +
+            '<li v-on:click="nextPage" class="no-border">»</li>' +
+            '<li class="no-border" v-show="rightOmit">...</li>' +
+            '<li  v-on:click="goEnd">末页</li>' +
+            '</ul>' +
+            '<span> 共 <span style="color: #dd1144" v-text="maxPages"></span> 页 </span>' +
+            '</div>',
             props: {
                 options:{
 
@@ -85,11 +91,23 @@
                     return i
                 },
                 showPages: function () {
-                    if(this.maxPages-this.floor>this.defaultOption.maxShowSize){
-                        this.leftShow = true
+                    var pagging = new Array(this.maxPages);
+                    for(var i = 0;i<pagging.length;i++){
+                        if((i-this.bindpage<this.defaultOption.maxShowSize&&i-this.bindpage>=0)||(this.bindpage-i<=this.defaultOption.maxShowSize&&this.bindpage-i>0)){
+                            pagging[i]={page:i+1,showSize:true,index:i}
+                        }else{
+                            pagging[i]={page:i+1,showSize:false,index:i}
+                        }
                     }
-                    console.log(this.bindpage+this.defaultOption.maxShowSize)
-                    return this.bindpage+this.defaultOption.maxShowSize
+                    return pagging
+                },
+                leftOmit: function () {
+                    var first = this.showPages[0]
+                    return !(first.showSize)
+                },
+                rightOmit:function(){
+                    var last = this.showPages[this.showPages.length-1]
+                    return !(last.showSize)
                 }
             },
             methods:{
@@ -117,7 +135,6 @@
                         this.bindpage--
                         this.$emit('topage',this.bindpage)
                     }
-
                 }
             },created: function () {
                 if(this.options.pageSize){
@@ -126,6 +143,10 @@
                 if(this.options.count){
                     this.defaultOption.count=this.options.count
                 }
+                if(this.options.maxShowSize){
+                    this.defaultOption.maxShowSize=this.options.maxShowSize
+                }
+                this.defaultOption.defaultOption++
             }
         })
         Vue.component('paging', Paging)

@@ -67,11 +67,9 @@
             template: '<div class="vue-paging-warp">' +
             '<ul>' +
             '<li v-on:click="goStart()" >首页</li>' +
-            '<li class="no-border" v-show="leftOmit">...</li>' +
             '<li v-on:click="prevPage"class="no-border">«</li>' +
             '<li v-on:click="goAnwPage(item.index)" v-for="item in showPages" v-show="item.showSize" v-text="item.page" :class="item.index==bindpage?'+"'"+'active'+"'"+':'+"'"+''+"'"+'"></li>' +
             '<li v-on:click="nextPage" class="no-border">»</li>' +
-            '<li class="no-border" v-show="rightOmit">...</li>' +
             '<li  v-on:click="goEnd">末页</li>' +
             '</ul>' +
             '<span> 共 <span style="color: #dd1144" v-text="maxPages"></span> 页 </span>' +

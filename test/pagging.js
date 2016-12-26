@@ -31,7 +31,7 @@ var Paging = Vue.extend({
     },
     computed:{
         maxPages: function () {
-            var i = Math.ceil(this.defaultOption.count/this.defaultOption.pageSize)
+            var i = Math.ceil(this.options.count/this.defaultOption.pageSize)
             return i
         },
         showPages: function () {

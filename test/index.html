@@ -7,8 +7,8 @@
 </head>
 <body>
     <div id="vue-warp">
-        <span>{{bindpage}}</span>
-        <paging :options.sync="datas" :bindpage.sync="bindpage" v-on:topage="toPageFunction"></paging>
+        <span>{{datas.bindpage}}</span>
+        <paging :options="datas" v-on:topage="toPageFunction"></paging>
     </div>
     <script type="text/javascript" src="vue.js"></script>
     <script type="text/javascript" src="pagging.js"></script>
@@ -17,10 +17,10 @@
             el:'#vue-warp',
             data:{
                 datas:{
-                    count:40,
-                    pageSize:5
-                },
-                bindpage:0
+                    count:100,
+                    pageSize:5,
+                    bindpage:1
+                }
             },
             methods:{
                 toPageFunction: function (page) {
@@ -28,6 +28,10 @@
                 }
             }
         })
+        setTimeout(function () {
+            vm.datas.pageSize=100
+
+        },2000)
     </script>
 </body>
 </html>

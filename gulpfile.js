@@ -1,7 +1,7 @@
 var gulp = require('gulp'),    connect = require('gulp-connect'), livereload = require('gulp-livereload');
 gulp.task('liveloadsrc', function() {
     livereload.listen();
-    gulp.watch('src/*.*', function(event){
+    gulp.watch('test/*.*', function(event){
         livereload.changed(event.path);
     });
 });

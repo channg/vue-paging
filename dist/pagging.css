@@ -1,0 +1,39 @@
+.vue-paging-warp{
+    text-align: center;
+    moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select:none;
+    -khtml-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+.vue-paging-warp ul{
+    display: inline-block;
+}
+.vue-paging-warp ul li{
+    list-style: none;
+    display: inline-block;
+    min-width: 15px;
+    height: 15px;
+    padding: 10px;
+    text-align: center;
+    line-height: 15px;
+    vertical-align: middle;
+    color:darkgray;
+    font-size: 16px;
+    cursor: pointer;
+}
+.vue-paging-warp ul li:first-child{
+    border-radius: 9px ;
+}.vue-paging-warp ul li:last-child{
+     border-radius:  9px ;
+ }
+.vue-paging-warp .active{
+    background-color: rgb(51, 122, 183);
+    border: 1px solid rgb(51, 122, 183);
+    color: white;
+}
+.vue-paging-warp .no-border{
+    border: none;
+}

@@ -23,7 +23,6 @@ var Paging = Vue.extend({
     '</div>',
     props: {
         options:{
-            twoWay: true
         },
         bindpage:{
             twoWay: true,

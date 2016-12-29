@@ -1,7 +1,7 @@
 <h5>vue-paging</h5>
 <h6> vue1.0分页插件  （～～）</h6>
 <br>
-<font color="blue">先看看效果～～～</font>
+<font color="blue">先看看效果~~~~</font>
 <img src="http://g.recordit.co/ncFkGLLXnL.gif">
 
 <font color="blue">使用方法</font>
